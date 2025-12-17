@@ -210,8 +210,6 @@ __marimo__/
 data/
 raw/
 clean/
-*.csv
-*.xlsx
 
 # Mac
 .DS_Store
