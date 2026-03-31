@@ -1,12 +1,11 @@
-# nhl-shots
-NHL Shots Model
+# NHL Shots Model
 
 The National Hockey League represents the highest level of competition in ice hockey. Every player on Team USA, the gold medalists of the 2026 Olympics, was playing in the NHL when the tournament took place. When compared to other major professional sports, the NHL lacks much of the high level analytics that are currently reshaping how games like basketball, football, and baseball are played. In this project, I will build a model that starts to lay some of the groundwork for understanding what factors play into the success of an NHL team, starting with shots. The primary goal will be to identify, agnostic of player/goalie/team, what factors play into the likelihood of a shot being a goal, and how
 
-Data
+### Data
 This project used over 1 million shots taken in the regular season between 2017 and 2025 with over 100 engineered features to capture spatial, temporal, and contextual dynamics. This data was pulled from moneypuck.com, an excellent source for NHL data and analytics.
 
-Cleaning
+### Cleaning
 
 Because the aim of this project is to predict the outcome of a shot, substantial preprocessing was necessary to ensure consistency and accuracy. Outside of normalizing naming conventions and adjusting the data types of variables, there were a few more notable challenges that I faced while cleaning the data.
 This dataset included a lot of contextual information for every shot. This meant that there were a lot of columns that needed to be dropped to prevent data leakage, including some less obvious features that only became apparent after early modeling.
@@ -15,20 +14,17 @@ Some features (notably those that include “timeonice”) had already been fill
 EDA
 Through EDA I found spatial, temporal, and contextual data were all significant when determining the likelihood of a shot resulting in a goal.
 
-
-Modeling
+### Modeling
 In my initial round of modeling, I used three different models:
 Logistic Regression
 Random Forest
 XGBoost
 At this point, given the strong class imbalance, I used PR AUC as my primary metric. Through testing, I found that XGBoost significantly outperformed the other two models, which led me to move forward with other boosting models.
 
-
 In my second round of modeling, I used three different boosting models:
 XGBoost
 LightGBM
 CatBoost
-
 
 It was also at this point that I tested oversampling and undersampling the data, as the dataset I started with was heavily imbalanced (~7% of shots were goals). 
 
@@ -43,7 +39,7 @@ One issue I faced at this point in the process was the number of false positives
 After running the oversampled catboost search and finding that the oversampled data actually worsened overall model performance, the undersampled CatBoost with a 30% Threshold was selected for the final model, with the confusion matrix for that model seen below: 
 
 
-Future Work
+### Future Work
 Given more time, I would like to expand this to better understand how luck and momentum play a role in NHL games, including player/team performance in the predictions.
 The hyperparameter tuning ate up significant portions of time, with my single oversampled CatBoost grid search taking over 8 hours to complete. With more resources available, I could potentially expand my search and increase the number of iterations.
 
