@@ -1,2 +1,45 @@
-# nhl-shots
-Capstone 2 - project that predicts the outcome of a shot in the NHL (goal or no goal)
+# NHL Shots Model
+
+The National Hockey League represents the highest level of competition in ice hockey. Every player on Team USA, the gold medalists of the 2026 Olympics, was playing in the NHL when the tournament took place. When compared to other major professional sports, the NHL lacks much of the high level analytics that are currently reshaping how games like basketball, football, and baseball are played. In this project, I will build a model that starts to lay some of the groundwork for understanding what factors play into the success of an NHL team, starting with shots. The primary goal will be to identify, agnostic of player/goalie/team, what factors play into the likelihood of a shot being a goal, and how
+
+### Data
+This project used over 1 million shots taken in the regular season between 2017 and 2025 with over 100 engineered features to capture spatial, temporal, and contextual dynamics. This data was pulled from moneypuck.com, an excellent source for NHL data and analytics.
+
+### Cleaning
+
+Because the aim of this project is to predict the outcome of a shot, substantial preprocessing was necessary to ensure consistency and accuracy. Outside of normalizing naming conventions and adjusting the data types of variables, there were a few more notable challenges that I faced while cleaning the data.
+This dataset included a lot of contextual information for every shot. This meant that there were a lot of columns that needed to be dropped to prevent data leakage, including some less obvious features that only became apparent after early modeling.
+Rare categories that required grouping prior to encoding to prevent too many columns.
+Some features (notably those that include “timeonice”) had already been filled to prevent missing values, although the filled values presented significant outliers. After identifying these features I was able to adjust the values to be more realistic and remove the noise they caused within the model.
+EDA
+Through EDA I found spatial, temporal, and contextual data were all significant when determining the likelihood of a shot resulting in a goal.
+
+### Modeling
+In my initial round of modeling, I used three different models:
+Logistic Regression
+Random Forest
+XGBoost
+At this point, given the strong class imbalance, I used PR AUC as my primary metric. Through testing, I found that XGBoost significantly outperformed the other two models, which led me to move forward with other boosting models.
+
+In my second round of modeling, I used three different boosting models:
+XGBoost
+LightGBM
+CatBoost
+
+It was also at this point that I tested oversampling and undersampling the data, as the dataset I started with was heavily imbalanced (~7% of shots were goals). 
+
+Oversampling performed better than undersampling when looking at CV Average Precision (normal skewed by imbalanced dataset), and outperformed both regular sampling and undersampling in log loss and F1 scoring. Undersampling decreased the AUC slightly, but to a lesser degree. Given the significantly decreased train time when undersampling, I used undersampling for the remaining model selection and hyperparameters tuning, with the intention of using oversampling for final model selection.
+
+Now working with a balanced dataset, I switched my primary scoring parameter to log loss, as it served as a more standard and consistent scoring method for the models I was using (CatBoost does not natively support average precision)
+Between XGBoost, CatBoost, and LightGBM, CatBoost performed the best, with the best iteration having a test logloss mean of 0.5166.
+
+One issue I faced at this point in the process was the number of false positives the model was predicting. Because I have no reason to strongly prefer accuracy or precision in this case, choosing a threshold was difficult. I ended up breaking the data into deciles, and from there using a lift score to designate the cutoff point.
+
+
+After running the oversampled catboost search and finding that the oversampled data actually worsened overall model performance, the undersampled CatBoost with a 30% Threshold was selected for the final model, with the confusion matrix for that model seen below: 
+
+
+### Future Work
+Given more time, I would like to expand this to better understand how luck and momentum play a role in NHL games, including player/team performance in the predictions.
+The hyperparameter tuning ate up significant portions of time, with my single oversampled CatBoost grid search taking over 8 hours to complete. With more resources available, I could potentially expand my search and increase the number of iterations.
+
