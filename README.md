@@ -3,7 +3,7 @@
 The National Hockey League represents the highest level of competition in ice hockey. Every player on Team USA, the gold medalists of the 2026 Olympics, was playing in the NHL when the tournament took place. When compared to other major professional sports, the NHL lacks much of the high level analytics that are currently reshaping how games like basketball, football, and baseball are played. In this project, I will build a model that starts to lay some of the groundwork for understanding what factors play into the success of an NHL team, starting with shots. The primary goal will be to identify, agnostic of player/goalie/team, what factors play into the likelihood of a shot being a goal, and how
 
 ## Data
-This project used over 1 million shots taken in the regular season between 2015 and 2024 with over 100 engineered features to capture spatial, temporal, and contextual dynamics. This data was pulled from moneypuck.com.
+This project used over 1 million shots taken in the regular season between 2015 and 2024 with over 100 engineered features to capture spatial, temporal, and contextual data. This data was pulled from moneypuck.com.
 
 ## Cleaning
 Because the aim of this project is to predict the outcome of a shot, substantial preprocessing was necessary to ensure consistency and accuracy. Outside of normalizing naming conventions and adjusting the data types of variables, there were a few more notable challenges that I faced while cleaning the data.
@@ -12,15 +12,19 @@ Rare categories that required grouping prior to encoding to prevent too many col
 Some features (notably those that include “timeonice”) had already had missing values filled, although the filled values presented significant outliers. After identifying these features I was able to adjust the values to be less disruptive.
 
 ## EDA
-Through EDA I found spatial, temporal, and contextual data were all significant when determining the likelihood of a shot resulting in a goal. 
-#### Spatial
+Through EDA I found spatial, temporal, and contextual data were all significant when determining the likelihood of a shot resulting in a goal.
+
+#### Spatial - X/Y coordinates of shot
 <img width="849" height="487" alt="Screenshot 2026-03-31 at 9 34 07 AM" src="https://github.com/user-attachments/assets/276b5edb-6e11-443b-a0e5-edf1a2c10139" />
 
-#### Temporal
+#### Temporal - Time between events
 <img width="592" height="465" alt="Screenshot 2026-03-31 at 9 51 48 AM" src="https://github.com/user-attachments/assets/b2c304ae-51b9-4daf-9202-a896163bf3af" />
-Shot angle plus rebound speed is an engineered feature that combines the change in angle from one shot to another, and the time between the two shots.
-#### Contextual
+
+*Shot angle plus rebound speed is an engineered feature that combines the change in angle from one shot to another, and the time between the two shots.*
+
+#### Contextual - Shot type, players on ice, player time on ice, etc.
 <img width="592" height="464" alt="Screenshot 2026-03-31 at 9 52 28 AM" src="https://github.com/user-attachments/assets/dd65cbfb-eda3-46fc-afba-a5c01d6ff256" />
+*Contextual made up a majority of the features used in this model*
 
 
 ### Modeling
@@ -39,7 +43,6 @@ Now working with a balanced dataset, I switched my primary scoring parameter to 
 Between XGBoost, CatBoost, and LightGBM, CatBoost performed the best, with the best iteration having a test log loss mean of ______.
 
 One issue I faced at this point in the process was the number of false positives the model was predicting. Because I have no reason to strongly prefer accuracy or precision in this case, choosing a threshold was difficult. I ended up breaking the data into deciles, and from there using a lift score to designate the cutoff point.
-
 
 After running the oversampled catboost search and finding that the oversampled data actually worsened overall model performance, the undersampled CatBoost with a 30% Threshold was selected for the final model, with the confusion matrix for that model seen below: 
 
