@@ -24,6 +24,7 @@ Through EDA I found spatial, temporal, and contextual data were all significant 
 
 #### Contextual - Shot type, players on ice, player time on ice, etc.
 <img width="592" height="464" alt="Screenshot 2026-03-31 at 9 52 28 AM" src="https://github.com/user-attachments/assets/dd65cbfb-eda3-46fc-afba-a5c01d6ff256" />
+
 *Contextual made up a majority of the features used in this model*
 
 
