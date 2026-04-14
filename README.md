@@ -32,6 +32,8 @@ Through EDA I found spatial, temporal, and contextual data were all significant 
 Initial model selection focused on comparing fundamentally different model classes: linear models (logistic regression), bagging models (random forest), and boosting models (XGBoost). At this point, given the strong class imbalance, I used PR AUC as my primary metric. Through testing, I found that XGBoost significantly outperformed the other two models, which led me to move forward with other boosting models.
 
 It was at this point that I tested oversampling and undersampling the data, as the dataset I started with was heavily imbalanced (~7% of shots were goals). 
+<img width="1194" height="1194" alt="Screenshot 2026-04-09 141305" src="https://github.com/user-attachments/assets/7752824a-6308-4f63-9225-c1683457a81b" />
+
 
 Oversampling performed better than undersampling when looking at CV Average Precision (normal skewed by imbalanced dataset), and outperformed both regular sampling and undersampling in log loss and F1 scoring. Undersampling decreased the AUC slightly, but to a lesser degree. Given the significantly decreased train time when undersampling, I used undersampling for the remaining model selection and hyperparameters tuning, with the intention of using oversampling for final model selection.
 
@@ -41,11 +43,17 @@ In my second round of modeling, I used three different boosting models:
 - CatBoost - Handling of categorical variables and ordered boosting scheme
 
 Now working with a balanced dataset, I switched my primary scoring parameter to log loss, as it served as a more standard and consistent scoring method for the models I was using (CatBoost does not natively support average precision)
-Between XGBoost, CatBoost, and LightGBM, CatBoost performed the best, with the best iteration having a test log loss mean of ______.
+Between XGBoost, CatBoost, and LightGBM, CatBoost slightly outperformed XGBoost and LightGBM, with the best iteration having a test log loss mean of 0.516561.
+<img width="585" height="420" alt="image" src="https://github.com/user-attachments/assets/585e87a0-6b41-4bec-a3a2-8b2a1eb36b3f" />
+
 
 One issue I faced at this point in the process was the number of false positives the model was predicting. Because I have no reason to strongly prefer accuracy or precision in this case, choosing a threshold was difficult. I ended up breaking the data into deciles, and from there using a lift score to designate the cutoff point.
+<img width="986" height="489" alt="Screenshot 2026-04-09 171734" src="https://github.com/user-attachments/assets/5a815b48-07b9-471e-a364-b8ee015fe0af" />
+Using the values displayed in the above figures, I set the threshold to 0.7, predicting the shots in the top deciles (0-2) to be goals.
 
 After running the oversampled catboost search and finding that the oversampled data actually worsened overall model performance, the undersampled CatBoost with a 30% Threshold was selected for the final model, with the confusion matrix for that model seen below: 
+
+
 
 
 ### Future Work
