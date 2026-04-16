@@ -6,12 +6,16 @@ The National Hockey League represents the highest level of competition in ice ho
 This project used over 1 million shots taken in the regular season between 2015 and 2024 with over 100 engineered features to capture spatial, temporal, and contextual data. This data was pulled from moneypuck.com.
 
 ## Cleaning
+[Cleaning Notebook](https://github.com/chrischoi7/nhl-shots/blob/main/cleaning-moneypuck.ipynb)
+
 Because the aim of this project is to predict the outcome of a shot, substantial preprocessing was necessary to ensure consistency and accuracy. Outside of normalizing naming conventions and adjusting the data types of variables, there were a few more notable challenges that I faced while cleaning the data.
 This dataset included a lot of contextual information for every shot. This meant that there were a lot of columns that needed to be dropped to prevent data leakage, including some less obvious features that only became apparent after early modeling.
 Rare categories that required grouping prior to encoding to prevent too many columns.
 Some features (notably those that include “timeonice”) had already had missing values filled, although the filled values presented significant outliers. After identifying these features I was able to adjust the values to be less disruptive.
 
 ## EDA
+[EDA Notebook](https://github.com/chrischoi7/nhl-shots/blob/main/eda-mp_shots.ipynb)
+
 Through EDA I found spatial, temporal, and contextual data were all significant when determining the likelihood of a shot resulting in a goal.
 
 #### Spatial - X/Y coordinates of shot
@@ -29,6 +33,8 @@ Through EDA I found spatial, temporal, and contextual data were all significant 
 
 
 ## Modeling
+[Modeling Notebook](https://github.com/chrischoi7/nhl-shots/blob/main/Modeling.ipynb)
+
 Initial model selection focused on comparing fundamentally different model classes: linear models (logistic regression), bagging models (random forest), and boosting models (XGBoost). At this point, given the strong class imbalance, I used PR AUC as my primary metric. Through testing, I found that XGBoost significantly outperformed the other two models, which led me to move forward with other boosting models.
 
 It was at this point that I tested oversampling and undersampling the data, as the dataset I started with was heavily imbalanced (~7% of shots were goals).
@@ -52,7 +58,8 @@ Between XGBoost, CatBoost, and LightGBM, CatBoost slightly outperformed XGBoost 
 ### Decile Evaluation
 At this point, with the default threshold set to 0.5, the model was significantly over predicting the number of goals, resulting in far too many false positives. Because I have no reason to strongly prefer accuracy or precision, I ended up breaking the data into deciles, and from there using the lift score of each decile to determine the threshold.
 
-<img width="989" height="495" alt="image" src="https://github.com/user-attachments/assets/1f6cedb5-5bb0-4b4d-96a7-b773d135cd50" />
+<img width="990" height="495" alt="image" src="https://github.com/user-attachments/assets/f068b887-01bd-4f93-b968-d5397f0e4bbf" />
+
 
 Using the values displayed in the above figures, I set the threshold to 0.7, predicting the shots in the top deciles (0-2) to be goals. This step also provided valuable insight into the performance of the model, with the top decile having a lift score of 4.21.
 
