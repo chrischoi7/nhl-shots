@@ -3,10 +3,10 @@
 The National Hockey League represents the highest level of competition in ice hockey. Every player on Team USA, the gold medalists of the 2026 Olympics, was playing in the NHL when the tournament took place. When compared to other major professional sports, the NHL lacks much of the high level analytics that are currently reshaping how games like basketball, football, and baseball are played. In this project, I will build a model that starts to lay some of the groundwork for understanding what factors play into the success of an NHL team, starting with shots. This project focuses on modeling goal outcomes in NHL shot data, with particular emphasis on handling class imbalance, evaluating model performance, and comparing different machine learning approaches. While the primary objective was technical, if small adjustements are made to the model, it could have practical applications such as aiding coaching staff in setting up plays, using aggregated goal probabilities to generate an expected goals statistic, and provide insight into the individual skills of players/goalies relative to the expected outcomes provided by the model.
 
 ## Data
-This project used over 1 million shots taken in the regular season between 2015 and 2024 with over 100 engineered features to capture spatial, temporal, and contextual data. This data was pulled from [moneypuck.com](moneypuck.com).
+This project used over 1 million shots taken in the regular season between 2015 and 2024 with over 100 engineered features to capture spatial, temporal, and contextual data. This data was pulled from ([moneypuck.com](https://moneypuck.com/data.htm)).
 
 ## Cleaning
-[Cleaning Notebook](https://github.com/chrischoi7/nhl-shots/blob/main/cleaning-moneypuck.ipynb)
+[Cleaning Notebook](https://github.com/chrischoi7/nhl-shots/blob/main/Notebooks/cleaning-moneypuck.ipynb)
 
 Because the aim of this project is to predict the outcome of a shot, substantial preprocessing was necessary to ensure consistency and accuracy. Outside of normalizing naming conventions and adjusting the data types of variables, there were a few more notable challenges that I faced while cleaning the data.
 This dataset included a lot of contextual information for every shot. This meant that there were a lot of columns that needed to be dropped to prevent data leakage, including some less obvious features that only became apparent after early modeling.
@@ -14,7 +14,7 @@ Rare categories that required grouping prior to encoding to prevent too many col
 Some features (notably those that include “timeonice”) had already had missing values filled, although the filled values presented significant outliers. After identifying these features I was able to adjust the values to be less disruptive.
 
 ## EDA
-[EDA Notebook](https://github.com/chrischoi7/nhl-shots/blob/main/eda-mp_shots.ipynb)
+[EDA Notebook](https://github.com/chrischoi7/nhl-shots/blob/main/Notebooks/eda-mp_shots.ipynb)
 
 Through EDA I found spatial, temporal, and contextual data were all significant when determining the likelihood of a shot resulting in a goal.
 
@@ -33,7 +33,7 @@ Through EDA I found spatial, temporal, and contextual data were all significant 
 
 
 ## Modeling
-[Modeling Notebook](https://github.com/chrischoi7/nhl-shots/blob/main/Modeling.ipynb)
+[Modeling Notebook](https://github.com/chrischoi7/nhl-shots/blob/main/Notebooks/Modeling.ipynb)
 
 Initial model selection focused on comparing fundamentally different model classes: linear models (logistic regression), bagging models (random forest), and boosting models (XGBoost). At this point, given the strong class imbalance, I used PR AUC as my primary metric. Through testing, I found that XGBoost significantly outperformed the other two models, which led me to move forward with other boosting models.
 
