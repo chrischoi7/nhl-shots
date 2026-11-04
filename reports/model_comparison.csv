@@ -1,0 +1,7 @@
+stage,model,cv_mean,holdout_average_precision,best_params,source_cell_id
+initial_average_precision,LogisticRegression,0.2192843409944106,0.21573665782129625,"{""C"": 1, ""l1_ratio"": 1}",ea7a144ec0d1662d
+initial_average_precision,XGBClassifier,0.36645042365768576,0.36107496648207726,"{""learning_rate"": 0.05, ""max_depth"": 6, ""min_child_weight"": 10, ""n_estimators"": 600, ""subsample"": 0.5}",ea7a144ec0d1662d
+initial_average_precision,RandomForestClassifier,0.2577881626899224,0.24831310352264144,"{""max_depth"": 9, ""min_samples_leaf"": 5, ""n_estimators"": 100}",ea7a144ec0d1662d
+boosting_log_loss,LightGBM,0.5178981104174256,,"{""learning_rate"": 0.01, ""min_data_in_leaf"": 20, ""num_leaves"": 64}",3f53c158c81bb4b1
+boosting_log_loss,XGBoost,0.5182160418889772,,"{""eta"": 0.01, ""max_depth"": 9, ""min_child_weight"": 10}",3f53c158c81bb4b1
+boosting_log_loss,Catboost,0.5161239513962608,,"{""depth"": 8, ""l2_leaf_reg"": 5, ""learning_rate"": 0.03}",3f53c158c81bb4b1

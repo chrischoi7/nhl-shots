@@ -1,0 +1,22 @@
+{
+  "source_commit": "1c0e229380b4d29630d29d79a0f20951d3f7fb22",
+  "source_blobs": {
+    "Notebooks/Modeling.ipynb": "28c625c0aa0a528b18b7c036d4ffef5ea7895097",
+    "metrics.csv": "9602f4cdff92b1efc2db2d11ed779958f969fe0c"
+  },
+  "status": "Historical exploratory outputs; no retraining or independent validation",
+  "evaluation_shots": 308346,
+  "evaluation_goals": 21137,
+  "evaluation_goal_rate": 0.0685496163400855,
+  "selected_shots": 92504,
+  "selected_goals": 15490,
+  "precision": 0.16745221828245266,
+  "recall": 0.732838151109429,
+  "f1": 0.2726128773946023,
+  "probability_threshold": 0.5260194322163532,
+  "reported_log_loss": 0.5146622446821956,
+  "training_goal_rate": 0.06855166010630018,
+  "derived_constant_training_prevalence_log_loss": 0.24987099393815548,
+  "baseline_note": "Calculated from saved aggregate counts; not a new fitted model",
+  "decile_note": "Counts exact as saved; mean scores/rates/lift rounded in notebook output"
+}
